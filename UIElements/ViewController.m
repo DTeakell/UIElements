@@ -18,7 +18,7 @@
 
 - (void) loadView {
     UIView *view = [[[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
-    view.backgroundColor = [UIColor whiteColor];
+    view.backgroundColor = [UIColor systemBackgroundColor];
     self.view = view;
     [view release];
 }
@@ -29,9 +29,9 @@
     // Create label
     self.label = [[UILabel alloc]initWithFrame:CGRectMake(50, 50, 50, 50)];
     self.label.text = @"Please enter your name";
-    self.label.textAlignment = NSTextAlignmentCenter;
-    self.label.textColor = [UIColor blackColor];
-    
+    self.label.textAlignment = NSTextAlignmentLeft;
+    self.label.font = [UIFont systemFontOfSize: 24 weight: UIFontWeightSemibold];
+    self.label.textColor = [UIColor labelColor];
     self.label.translatesAutoresizingMaskIntoConstraints = NO;
     
     [self.view addSubview: self.label];
@@ -41,6 +41,7 @@
     self.textField = [[UITextField alloc] initWithFrame:CGRectMake(50, 50, 50, 50)];
     self.textField.borderStyle = UITextBorderStyleRoundedRect;
     self.textField.placeholder = @"Name";
+    self.textField.tintColor = [UIColor systemPinkColor];
     self.textField.translatesAutoresizingMaskIntoConstraints = NO;
     
     [self.view addSubview: self.textField];
@@ -48,9 +49,11 @@
     
     // Create button
     self.button = [UIButton buttonWithType: UIButtonTypeSystem];
+    self.button.configuration = [UIButtonConfiguration borderedProminentButtonConfiguration];
+    self.button.tintColor = [UIColor systemPinkColor];
     self.button.frame = CGRectMake(50, 100, 150, 50);
-    [self.button setTitle: @"Confirm" forState: UIControlStateNormal];
     
+    [self.button setTitle: @"Confirm" forState: UIControlStateNormal];
     [self.button addTarget: self action: @selector(buttonTapped) forControlEvents: UIControlEventTouchUpInside];
 
     self.button.translatesAutoresizingMaskIntoConstraints = NO;
@@ -60,17 +63,19 @@
     
     // Add constraints
     [NSLayoutConstraint activateConstraints: @[
-        // Center label and place it near the top
-        [self.label.centerXAnchor constraintEqualToAnchor: self.view.centerXAnchor],
+        // Label
+        [self.label.leadingAnchor constraintEqualToAnchor: self.view.leadingAnchor constant:20],
+        [self.label.trailingAnchor constraintEqualToAnchor: self.view.trailingAnchor constant:-20],
         [self.label.topAnchor constraintEqualToAnchor: self.view.safeAreaLayoutGuide.topAnchor constant: 150],
         
-        [self.textField.centerXAnchor constraintEqualToAnchor: self.view.centerXAnchor],
-        [self.textField.topAnchor constraintEqualToAnchor: self.label.bottomAnchor constant: 20],
+        // Text Field
+        [self.textField.leadingAnchor constraintEqualToAnchor: self.view.leadingAnchor constant:20],
+        [self.textField.trailingAnchor constraintEqualToAnchor: self.view.trailingAnchor constant:-20],
+        [self.textField.topAnchor constraintEqualToAnchor: self.label.bottomAnchor constant:20],
         
-        // Center button horizontally and place it under the button
+        // Button
         [self.button.centerXAnchor constraintEqualToAnchor: self.view.centerXAnchor],
-        [self.button.topAnchor constraintEqualToAnchor:
-            self.textField.bottomAnchor constant: 20]
+        [self.button.topAnchor constraintEqualToAnchor: self.textField.bottomAnchor constant: 20]
     ]];
 }
 
